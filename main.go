@@ -16,20 +16,20 @@
  *      along with Pass-Go.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-//go:generate pkger
 package main
 
 import (
 	"crypto/tls"
-	"github.com/markbates/pkger"
-	"golang.org/x/crypto/acme"
-	"golang.org/x/crypto/acme/autocert"
 	"log"
 	"net/http"
 	"pass-go/config"
 	"pass-go/router"
 	"pass-go/signals"
 	"pass-go/storage"
+
+	"github.com/markbates/pkger"
+	"golang.org/x/crypto/acme"
+	"golang.org/x/crypto/acme/autocert"
 )
 
 func main() {
@@ -70,11 +70,10 @@ func main() {
 			log.Fatal(http.ListenAndServe(":http", h))
 		}()
 
-		log.Fatal(server.ListenAndServeTLS("",""))
+		log.Fatal(server.ListenAndServeTLS("", ""))
 	} else {
 		// Just listen for plain old http (if behind a LB/SSL terminator)
-		log.Fatal(http.ListenAndServe(":" + conf.HTTP.Port, r))
+		log.Fatal(http.ListenAndServe(":"+conf.HTTP.Port, r))
 	}
-
 
 }

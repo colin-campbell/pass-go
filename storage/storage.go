@@ -19,20 +19,23 @@
 package storage
 
 import (
-	lediscfg "github.com/ledisdb/ledisdb/config"
-	"github.com/ledisdb/ledisdb/ledis"
-	uuid "github.com/nu7hatch/gouuid"
 	"pass-go/config"
 	"pass-go/crypto"
 	"strconv"
 	"strings"
+
+	lediscfg "github.com/ledisdb/ledisdb/config"
+	"github.com/ledisdb/ledisdb/ledis"
+	uuid "github.com/nu7hatch/gouuid"
 )
 
+// Storage is responsible for readin/writing secrets to the database
 type Storage struct {
-	db *ledis.DB
+	db     *ledis.DB
 	crypto *crypto.Crypto
 }
 
+// New creates a new instance of Storage
 func New(conf config.Config) *Storage {
 	s := &Storage{}
 	dbCfg := lediscfg.NewConfigDefault()
@@ -46,20 +49,22 @@ func New(conf config.Config) *Storage {
 	return s
 }
 
+// SetPassword encrypts and stores the supplied data to the database
 func (s *Storage) SetPassword(password string, ttl string) string {
 	u, _ := uuid.NewV4()
 	// Compatibility with SnapPass uuid.
 	storageKey := strings.Replace(u.String(), "-", "", -1)
 	cipherText, encryptionKey := s.crypto.Encrypt(password)
-	duration, _  := strconv.Atoi(ttl)
+	duration, _ := strconv.Atoi(ttl)
 	_ = s.db.SetEX([]byte(storageKey), int64(duration), []byte(cipherText))
 	token := strings.Join([]string{storageKey, encryptionKey}, "~")
 	return token
 }
 
+// GetPassword retreives the stored password from the database.
 func (s *Storage) GetPassword(token string) string {
 	storageKey, decryptionKey := s.parseToken(token)
-	password, _  := s.db.Get([]byte(storageKey))
+	password, _ := s.db.Get([]byte(storageKey))
 	_, _ = s.db.Del([]byte(storageKey))
 	if password != nil {
 		decoded := s.crypto.Decrypt(string(password), decryptionKey, 0)
@@ -68,13 +73,18 @@ func (s *Storage) GetPassword(token string) string {
 	return ""
 }
 
+// PasswordExists checks if the token exists in the database
 func (s *Storage) PasswordExists(token string) bool {
 	storageKey, _ := s.parseToken(token)
 	exists, _ := s.db.Exists([]byte(storageKey))
 	return exists == 1
 }
 
-func (s *Storage) parseToken(token string) (string ,string){
-		parts := strings.Split(token, "~")
-		return parts[0], parts[1]
+func (s *Storage) parseToken(token string) (string, string) {
+	parts := strings.Split(token, "~")
+
+	if len(parts) != 2 {
+		return "", ""
+	}
+	return parts[0], parts[1]
 }

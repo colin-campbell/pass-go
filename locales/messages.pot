@@ -1,0 +1,54 @@
+msgid "Pass-Go - Share Secrets"
+msgstr ""
+
+msgid "Share Secret Link"
+msgstr ""
+
+msgid "The secret has been temporarily saved. Send the following URL to your intended recipient."
+msgstr ""
+
+msgid "Copy to clipboard"
+msgstr ""
+
+msgid "'Press ' + key + '-C to copy'"
+msgstr ""
+
+msgid "'Copied!'"
+msgstr ""
+
+msgid "Secret"
+msgstr ""
+
+msgid "Save the following secret to a secure location."
+msgstr ""
+
+msgid "The secret has now been permanently deleted from the system, and the URL will no longer work. Refresh this page to verify."
+msgstr ""
+
+msgid "You can only reveal the secret once!"
+msgstr ""
+
+msgid "Reveal secret"
+msgstr ""
+
+msgid "Share Secret"
+msgstr ""
+
+msgid "Pass-Go allows you to share secrets in a secure, ephemeral way. Input a single or multi-line secret, its expiration time, and click 'Generate URL'. Share the one-time use URL with your intended recipient."
+msgstr ""
+
+msgid "Two Weeks"
+msgstr ""
+
+msgid "Week"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid "Hour"
+msgstr ""
+
+msgid "Generate URL"
+msgstr ""
+

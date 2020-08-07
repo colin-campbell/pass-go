@@ -2,11 +2,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Pass-Go - Share Secrets"</title>
+    <title>{{ gettext "Pass-Go - Share Secrets" }}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/fontawesome/css/font-awesome.min.css?v=4.7.0" rel="stylesheet">
     <link href="/static/passgo/css/custom.css" rel="stylesheet">
   </head>
@@ -20,8 +19,8 @@
     </nav>
 
     {{block "content" .}}{{end}}
-    <script src="/static/jquery/jquery-1.12.4.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     {{ block "js" .}}{{end}}
   </body>
 </html>

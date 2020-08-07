@@ -18,17 +18,17 @@
 
 package config
 
-
 type (
+	// Config holds the application configuration
 	Config struct {
 		HTTP struct {
-			Hosts  string `envconfig:"PASSGO_HTTP_HOSTS"`
-			Port   string `envconfig:"PASSGO_HTTP_PORT" default:"5000"`
-			Root   string `envconfig:"PASSGO_HTTP_ROOT" default:"/"`
-			Email 	 string `envconfig:"PASSGO_LETSENCRYPT_EMAIL"`
+			Hosts string `envconfig:"PASSGO_HTTP_HOSTS"`
+			Port  string `envconfig:"PASSGO_HTTP_PORT" default:"5000"`
+			Root  string `envconfig:"PASSGO_HTTP_ROOT" default:"/"`
+			Email string `envconfig:"PASSGO_LETSENCRYPT_EMAIL"`
 		}
 		DB struct {
-			DataDir string `default:"/var/lib/ledis"`
+			DataDir string `envconfig:"PASSGO_DB_DATADIR" default:"/var/lib/ledis"`
 		}
 		CacheDir string `default:"/var/lib/acme"`
 	}

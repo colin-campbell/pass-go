@@ -28,6 +28,8 @@ RUN setcap 'cap_net_bind_service=+ep' /pass-go
 
 FROM scratch
 # Import from builder.
+# We have to import everything, because scratch image is basically empty.
+
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
@@ -38,10 +40,11 @@ COPY --from=builder --chown="${USER}":"${USER}" /var/lib/ledis /var/lib/ledis
 # Letsencrypt certificate cache
 COPY --from=builder --chown="${USER}":"${USER}" /var/lib/acme /var/lib/acme
 
+COPY --chown="${USER}":"${USER}" locales /locales
 VOLUME ["/var/lib/ledis", "/var/lib/acme"]
 
 # Use an unprivileged user.
 USER "${USER}"
-WORKDIR /var/lib/ledis
+WORKDIR /
 
 ENTRYPOINT ["/pass-go"]
