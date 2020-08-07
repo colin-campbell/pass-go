@@ -119,7 +119,7 @@ func blockUserAgents(next http.Handler) http.Handler {
 
 		userAgent := r.Header.Get("User-Agent")
 		if strings.HasPrefix(userAgent, "Slack") {
-			http.Error(w, "Go away bots", http.StatusBadRequest)
+			http.Error(w, "Come in Harold, your tea is ready!", http.StatusTeapot)
 			return
 		}
 		next.ServeHTTP(w, r)
