@@ -1,0 +1,69 @@
+msgid "Pass-Go - Share Secrets"
+msgstr "पास-गो - गोपनीय साझा करें"
+
+msgid "Share Secret Link"
+msgstr "गोपनीय लिंक साझा करें"
+
+msgid ""
+"The secret has been temporarily saved. Send the following URL to your "
+"intended recipient."
+msgstr ""
+"गोपनीयता को अस्थायी रूप से सहेजा गया है। अपने इच्छित प्राप्तकर्ता को "
+"निम्न URL भेजें।"
+
+msgid "Copy to clipboard"
+msgstr "क्लिपबोर्ड पर कॉपी करें"
+
+msgid "'Press ' + key + '-C to copy'"
+msgstr "'कॉपी करने के लिए' + key +  '-C दबाएं'"
+
+msgid "'Copied!'"
+msgstr "कॉपी किया गया!"
+
+msgid "Secret"
+msgstr "रहस्य"
+
+msgid "Save the following secret to a secure location."
+msgstr "निम्न गोपनीयता को सुरक्षित स्थान पर सहेजें।"
+
+msgid ""
+"The secret has now been permanently deleted from the system, and the URL "
+"will no longer work. Refresh this page to verify."
+msgstr ""
+"गोपनीयता अब स्थायी रूप से सिस्टम से हटा दी गई है और URL अब काम नहीं "
+"करेगा। सत्यापन के लिए इस पृष्ठ को पुनः लोड करें।"
+
+msgid "You can only reveal the secret once!"
+msgstr "आप केवल एक बार गोपनीयता का खुलासा कर सकते हैं!"
+
+msgid "Reveal secret"
+msgstr "रहस्य प्रकट करें"
+
+msgid "Share Secret"
+msgstr "गुप्त सेट करें"
+
+msgid ""
+"Pass-Go allows you to share secrets in a secure, ephemeral way. Input a "
+"single or multi-line secret, its expiration time, and click 'Generate "
+"URL'. Share the one-time use URL with your intended recipient."
+msgstr ""
+"पास - गो आपको सुरक्षित और अस्थायी तरीके से गोपनीयता साझा करने देता है। एक"
+" या अधिक पंक्तियों की गोपनीय जानकारी इनपुट करें, ‘URL उत्पादन’ पर क्लिक "
+"करें। अपने इच्छित प्राप्तकर्ता के साथ एक बार उपयोग होने वाला URL साझा "
+"करें।"
+
+msgid "Two Weeks"
+msgstr "दो हफ्ते"
+
+msgid "Week"
+msgstr "सप्ताह"
+
+msgid "Day"
+msgstr "दिन"
+
+msgid "Hour"
+msgstr "घंटा"
+
+msgid "Generate URL"
+msgstr "URL उत्पादन"
+
