@@ -1,0 +1,68 @@
+msgid "Pass-Go - Share Secrets"
+msgstr "Pass-Go - Comparte secretos"
+
+msgid "Share Secret Link"
+msgstr "Enlace del secreto compartido"
+
+msgid ""
+"The secret has been temporarily saved. Send the following URL to your "
+"intended recipient."
+msgstr ""
+"El secreto se ha guardado temporalmente. Envía la siguiente URL al "
+"destinatario."
+
+msgid "Copy to clipboard"
+msgstr "Copiar al portapapeles"
+
+msgid "'Press ' + key + '-C to copy'"
+msgstr "'Presiona ' + key + '-C para copiar'"
+
+msgid "'Copied!'"
+msgstr "'¡Copiado!''"
+
+msgid "Secret"
+msgstr "Secreto"
+
+msgid "Save the following secret to a secure location."
+msgstr "Guarda el siguiente secreto en un lugar seguro."
+
+msgid ""
+"The secret has now been permanently deleted from the system, and the URL "
+"will no longer work. Refresh this page to verify."
+msgstr ""
+"El secreto se ha borrado permanentemente del sistema, y la URL no "
+"funcionara. Refresca la página para comprobar."
+
+msgid "You can only reveal the secret once!"
+msgstr "¡Solo puedes revelar el secreto una vez!"
+
+msgid "Reveal secret"
+msgstr "Revela el secreto"
+
+msgid "Share Secret"
+msgstr "Comparte un secreto"
+
+msgid ""
+"Pass-Go allows you to share secrets in a secure, ephemeral way. Input a "
+"single or multi-line secret, its expiration time, and click 'Generate "
+"URL'. Share the one-time use URL with your intended recipient."
+msgstr ""
+"Pass-Go te permite compartir secretos en una forma segura. Ingresa "
+"secreto de una o varias líneas, su tiempo de caducidad y haga clic en "
+"Generar URL."
+
+msgid "Two Weeks"
+msgstr "Dos semanas"
+
+msgid "Week"
+msgstr "Semana"
+
+msgid "Day"
+msgstr "Día"
+
+msgid "Hour"
+msgstr "Hora"
+
+msgid "Generate URL"
+msgstr "Genera URL"
+

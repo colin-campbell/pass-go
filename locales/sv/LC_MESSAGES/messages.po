@@ -1,0 +1,63 @@
+msgid "Pass-Go - Share Secrets"
+msgstr "Pass-Go - Dela Hemligheter"
+
+msgid "Share Secret Link"
+msgstr "Dela Hemlig Länk"
+
+msgid ""
+"The secret has been temporarily saved. Send the following URL to your "
+"intended recipient."
+msgstr "Hemligheten har tillfälligt sparats. Skicka denna länk till din "
+
+msgid "Copy to clipboard"
+msgstr "Kopiera till urklipp"
+
+msgid "'Press ' + key + '-C to copy'"
+msgstr "'Tryck på ' + key + '-C för att kopiera'"
+
+msgid "'Copied!'"
+msgstr "'Kopierad!'"
+
+msgid "Secret"
+msgstr "Hemlighet"
+
+msgid "Save the following secret to a secure location."
+msgstr "Spara denna hemlighet på en säker plats."
+
+msgid ""
+"The secret has now been permanently deleted from the system, and the URL "
+"will no longer work. Refresh this page to verify."
+msgstr "Hemligheten har raderats permanent från systemet och länken "
+
+msgid "You can only reveal the secret once!"
+msgstr "Du kan bara se hemligheten en gång!"
+
+msgid "Reveal secret"
+msgstr "Se hemligheten"
+
+msgid "Share Secret"
+msgstr "Dela Hemlighet"
+
+msgid ""
+"Pass-Go allows you to share secrets in a secure, ephemeral way. Input a "
+"single or multi-line secret, its expiration time, and click 'Generate "
+"URL'. Share the one-time use URL with your intended recipient."
+msgstr ""
+"Med Pass-Go kan du dela hemligheter säkert och med tidsbegränsning. Skriv"
+" en "
+
+msgid "Two Weeks"
+msgstr "Två Veckor"
+
+msgid "Week"
+msgstr "En Vecka"
+
+msgid "Day"
+msgstr "Ett dygn"
+
+msgid "Hour"
+msgstr "En Timme"
+
+msgid "Generate URL"
+msgstr "Generera Länk"
+

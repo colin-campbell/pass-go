@@ -21,8 +21,6 @@ package router
 import (
 	"errors"
 	"fmt"
-	"github.com/go-chi/chi"
-	"github.com/markbates/pkger"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -30,6 +28,12 @@ import (
 	"pass-go/config"
 	"pass-go/storage"
 	"path/filepath"
+	"strings"
+
+	"github.com/go-chi/chi"
+	"github.com/leonelquinteros/gotext"
+	"github.com/markbates/pkger"
+	"golang.org/x/text/language"
 )
 
 func checkInput(form map[string][]string) error {
@@ -42,21 +46,28 @@ func checkInput(form map[string][]string) error {
 
 	switch form["ttl"][0] {
 	case
-	"1209600", // Two weeks
-	"604800", // Week
-	"86400", // Day
-	"3600":
+		"1209600", // Two weeks
+		"604800",  // Week
+		"86400",   // Day
+		"3600":
 		return nil
 	}
-	return  errors.New("invalid ttl")
+	return errors.New("invalid ttl")
 }
-func parseFiles(t *template.Template, filenames ...string) (*template.Template, error) {
+
+var fmap = template.FuncMap{
+	"gettext": func(original string) string {
+		return gotext.Get(original)
+	},
+}
+
+func parseTemplates(t *template.Template, filenames ...string) (*template.Template, error) {
 	if len(filenames) == 0 {
 		// Not really a problem, but be consistent.
 		return nil, fmt.Errorf("template: no files named in call to ParseFiles")
 	}
 	for _, filename := range filenames {
-		f , err := pkger.Open(filename)
+		f, err := pkger.Open(filename)
 		if err != nil {
 			return nil, err
 		}
@@ -68,12 +79,12 @@ func parseFiles(t *template.Template, filenames ...string) (*template.Template, 
 		name := filepath.Base(filename)
 		var tmpl *template.Template
 		if t == nil {
-			t = template.New(name)
+			t = template.New(name).Funcs(fmap)
 		}
 		if name == t.Name() {
 			tmpl = t
 		} else {
-			tmpl = t.New(name)
+			tmpl = t.New(name).Funcs(fmap)
 		}
 		_, err = tmpl.Parse(s)
 		if err != nil {
@@ -83,13 +94,50 @@ func parseFiles(t *template.Template, filenames ...string) (*template.Template, 
 	return t, nil
 }
 
+var (
+	matcher = language.NewMatcher([]language.Tag{
+		language.English,
+		language.Swedish,
+		language.Spanish,
+		language.Bengali,
+		language.German,
+	})
+)
 
+func setLanguage(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		t, _, _ := language.ParseAcceptLanguage(r.Header.Get("Accept-Language"))
+		tag, _, _ := matcher.Match(t...)
+		gotext.Configure("locales", tag.String(), "messages")
+		next.ServeHTTP(w, r)
+	})
+}
+
+// blockUserAgents stops Slackbot parsing the secret.
+func blockUserAgents(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		userAgent := r.Header.Get("User-Agent")
+		if strings.HasPrefix(userAgent, "Slack") {
+			http.Error(w, "Go away bots", http.StatusBadRequest)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
+// New creates a new router with handlers
 func New(conf config.Config, storage *storage.Storage) chi.Router {
 	// TODO: Parse all templates at program start.
 	r := chi.NewRouter()
+
+	r.Use(blockUserAgents)
+	r.Use(setLanguage)
+
 	r.Route(conf.HTTP.Root, func(root chi.Router) {
 		root.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			if tpl, err := parseFiles(nil,
+
+			if tpl, err := parseTemplates(nil,
 				"/templates/set_password.html",
 				"/templates/base.html"); err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -101,6 +149,15 @@ func New(conf config.Config, storage *storage.Storage) chi.Router {
 				}
 			}
 		})
+
+		root.Get("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
+			const robot = `
+User-agent: *
+Disallow: /
+`
+			w.Write([]byte(robot))
+		})
+
 		root.Post("/", func(w http.ResponseWriter, r *http.Request) {
 			if err := r.ParseForm(); err != nil {
 				http.Error(w, "Invalid form data", http.StatusBadRequest)
@@ -118,7 +175,7 @@ func New(conf config.Config, storage *storage.Storage) chi.Router {
 			full := scheme + r.Host + "/" + token
 			u, _ := url.Parse(full)
 
-			tpl, _ := parseFiles(nil,
+			tpl, _ := parseTemplates(nil,
 				"/templates/confirm.html",
 				"/templates/base.html")
 			_ = tpl.ExecuteTemplate(w, "confirm.html", u.String())
@@ -128,10 +185,10 @@ func New(conf config.Config, storage *storage.Storage) chi.Router {
 			passwordKey := chi.URLParam(r, "password_key")
 			passwordKey, _ = url.QueryUnescape(passwordKey)
 			if !storage.PasswordExists(passwordKey) {
-				http.NotFound(w,r)
+				http.NotFound(w, r)
 				return
 			}
-			tpl, _ := parseFiles(nil,
+			tpl, _ := parseTemplates(nil,
 				"/templates/preview.html",
 				"/templates/base.html")
 			_ = tpl.ExecuteTemplate(w, "preview.html", nil)
@@ -140,14 +197,14 @@ func New(conf config.Config, storage *storage.Storage) chi.Router {
 			passwordKey, _ := url.QueryUnescape(chi.URLParam(r, "password_key"))
 			password := storage.GetPassword(passwordKey)
 			if password == "" {
-				http.NotFound(w,r)
+				http.NotFound(w, r)
 				return
 			}
-			tpl, _ := parseFiles(nil,
+			tpl, _ := parseTemplates(nil,
 				"/templates/password.html",
 				"/templates/base.html")
 			_ = tpl.ExecuteTemplate(w, "password.html", password)
-		} )
+		})
 
 		fs := http.FileServer(pkger.Dir("/static/"))
 		root.Handle("/static/*", http.StripPrefix("/static/", fs))

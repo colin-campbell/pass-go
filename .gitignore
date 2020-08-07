@@ -1,4 +1,9 @@
 .idea
+.vscode
 
 pass-go
 pkged.go
+vendor
+.venv
+goleveldb_data
+templates/*.tpl
