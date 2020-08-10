@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit;\n"
+
+msgid "Pass-Go - Share Secrets"
+msgstr "Pass-Go - Comparteix secrets"
+
+msgid "Share Secret Link"
+msgstr "Enllaç del secret compartit"
+
+msgid ""
+"The secret has been temporarily saved. Send the following URL to your "
+"intended recipient."
+msgstr ""
+"El secret s'ha guardat temporalment. Envia la següent URL al "
+"destinatari."
+
+msgid "Copy to clipboard"
+msgstr "Copia al porta-retalls"
+
+msgid "'Press ' + key + '-C to copy'"
+msgstr "'Pressiona ' + key + '-C per copiar'"
+
+msgid "'Copied!'"
+msgstr "'Copiat!'"
+
+msgid "Secret"
+msgstr "Secret"
+
+msgid "Save the following secret to a secure location."
+msgstr "Desa el següent secret en un lloc segur."
+
+msgid ""
+"The secret has now been permanently deleted from the system, and the URL "
+"will no longer work. Refresh this page to verify."
+msgstr ""
+"El secret s'ha esborrat permanentment de el sistema, i la URL no "
+"funcionará. Refresca la pàgina per comprovar-ho."
+
+msgid "You can only reveal the secret once!"
+msgstr "Només pots revelar el secret una vegada!"
+
+msgid "Reveal secret"
+msgstr "Revela el secret"
+
+msgid "Share Secret"
+msgstr "Comparteix un secret"
+
+msgid ""
+"Pass-Go allows you to share secrets in a secure, ephemeral way. Input a "
+"single or multi-line secret, its expiration time, and click 'Generate "
+"URL'. Share the one-time use URL with your intended recipient."
+msgstr ""
+"Pass-Go et permet compartir secrets d'una forma segura. Ingressa "
+"el secret d'una o diverses línies, el seu temps de caducitat i feu clic a "
+"'Generar URL'."
+
+msgid "Two Weeks"
+msgstr "Dues setmanes"
+
+msgid "Week"
+msgstr "Setmana"
+
+msgid "Day"
+msgstr "Dia"
+
+msgid "Hour"
+msgstr "Hora"
+
+msgid "Generate URL"
+msgstr "Generar URL"
+
