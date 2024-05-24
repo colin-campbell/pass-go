@@ -20,6 +20,8 @@ package main
 
 import (
 	"crypto/tls"
+	"embed"
+	"html/template"
 	"log"
 	"net/http"
 	"pass-go/config"
@@ -27,18 +29,41 @@ import (
 	"pass-go/signals"
 	"pass-go/storage"
 
-	"github.com/markbates/pkger"
+	"github.com/leonelquinteros/gotext"
 	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
 )
 
+var (
+	//go:embed templates/*.html
+	templateFS embed.FS
+	//go:embed static
+	staticFS embed.FS
+
+	temps *template.Template
+)
+
+// Define function for gettext in templates.
+var fmap = template.FuncMap{
+	"gettext": func(original string) string {
+		return gotext.Get(original)
+	},
+}
+
+// Initaliase templates from embed.FS.
+func init() {
+	temps = template.Must(template.New("").Funcs(fmap).ParseFS(templateFS, "templates/*.html"))
+
+	router.Temps = *temps
+	router.StaticFS = staticFS
+}
+
 func main() {
+	//fmt.Println(temps.DefinedTemplates())
+
 	// Handle our own signals for when we run as PID 1
 	signals.Setup()
 
-	// Tell "pkger" tool  that it must package templates directory.
-	// @see go:generate in the file header.
-	_ = pkger.Include("/templates")
 	conf := config.MustLoad()
 	store := storage.New(conf)
 

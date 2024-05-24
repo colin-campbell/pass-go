@@ -1,21 +1,39 @@
-{{template "base" .}}
-{{define "content"}}
-<div class="container">
-  <section>
-    <div class="page-header">
-      <h1>{{ gettext "Secret" }}</h1>
-    </div>
-    <p class="lead">{{ gettext "You can only reveal the secret once!" }}</p>
-    <div class="row">
-      <div class="col-sm-6 margin-bottom-10">
-        <button id="revealSecret" type="button" class="btn-lg btn-primary">{{ gettext "Reveal secret" }}</button>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ gettext "Pass-Go - Share Secrets" }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/fontawesome/css/font-awesome.min.css?v=4.7.0" rel="stylesheet">
+    <link href="/static/passgo/css/custom.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a  class="navbar-brand" href="/"><span>Pass-GO</span></a>
+        </div>
       </div>
+    </nav>
+    <div class="container">
+      <section>
+        <div class="page-header">
+          <h1>{{ gettext "Secret" }}</h1>
+        </div>
+        <p class="lead">{{ gettext "You can only reveal the secret once!" }}</p>
+        <div class="row">
+          <div class="col-sm-6 margin-bottom-10">
+            <button id="revealSecret" type="button" class="btn-lg btn-primary">{{ gettext "Reveal secret" }}</button>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>
-</div>
-{{end}}
 
-{{define "js"}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script src="/static/clipboardjs/clipboard.min.js"></script>
 <script type="text/javascript">
   (function () {
@@ -61,4 +79,5 @@
     });
   })();
 </script>
-{{end}}
+  </body>
+</html>

@@ -19,21 +19,23 @@
 package router
 
 import (
+	"embed"
 	"errors"
-	"fmt"
 	"html/template"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"pass-go/config"
 	"pass-go/storage"
-	"path/filepath"
 	"strings"
 
 	"github.com/go-chi/chi"
 	"github.com/leonelquinteros/gotext"
-	"github.com/markbates/pkger"
 	"golang.org/x/text/language"
+)
+
+var (
+	StaticFS embed.FS
+	Temps    template.Template
 )
 
 func checkInput(form map[string][]string) error {
@@ -53,45 +55,6 @@ func checkInput(form map[string][]string) error {
 		return nil
 	}
 	return errors.New("invalid ttl")
-}
-
-var fmap = template.FuncMap{
-	"gettext": func(original string) string {
-		return gotext.Get(original)
-	},
-}
-
-func parseTemplates(t *template.Template, filenames ...string) (*template.Template, error) {
-	if len(filenames) == 0 {
-		// Not really a problem, but be consistent.
-		return nil, fmt.Errorf("template: no files named in call to ParseFiles")
-	}
-	for _, filename := range filenames {
-		f, err := pkger.Open(filename)
-		if err != nil {
-			return nil, err
-		}
-		b, err := ioutil.ReadAll(f)
-		if err != nil {
-			return nil, err
-		}
-		s := string(b)
-		name := filepath.Base(filename)
-		var tmpl *template.Template
-		if t == nil {
-			t = template.New(name).Funcs(fmap)
-		}
-		if name == t.Name() {
-			tmpl = t
-		} else {
-			tmpl = t.New(name).Funcs(fmap)
-		}
-		_, err = tmpl.Parse(s)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return t, nil
 }
 
 var (
@@ -137,17 +100,11 @@ func New(conf config.Config, storage *storage.Storage) chi.Router {
 	r.Route(conf.HTTP.Root, func(root chi.Router) {
 		root.Get("/", func(w http.ResponseWriter, r *http.Request) {
 
-			if tpl, err := parseTemplates(nil,
-				"/templates/set_password.html",
-				"/templates/base.html"); err != nil {
+			if err := Temps.ExecuteTemplate(w, "set_password.html", nil); err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
-			} else {
-				if err = tpl.ExecuteTemplate(w, "set_password.html", nil); err != nil {
-					http.Error(w, err.Error(), http.StatusInternalServerError)
-					return
-				}
 			}
+
 		})
 
 		root.Get("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
@@ -175,10 +132,11 @@ Disallow: /
 			full := scheme + r.Host + "/" + token
 			u, _ := url.Parse(full)
 
-			tpl, _ := parseTemplates(nil,
-				"/templates/confirm.html",
-				"/templates/base.html")
-			_ = tpl.ExecuteTemplate(w, "confirm.html", u.String())
+			err := Temps.ExecuteTemplate(w, "confirm.html", u.String())
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+			}
+
 		})
 
 		root.Get("/{password_key}", func(w http.ResponseWriter, r *http.Request) {
@@ -188,10 +146,8 @@ Disallow: /
 				http.NotFound(w, r)
 				return
 			}
-			tpl, _ := parseTemplates(nil,
-				"/templates/preview.html",
-				"/templates/base.html")
-			_ = tpl.ExecuteTemplate(w, "preview.html", nil)
+
+			_ = Temps.ExecuteTemplate(w, "preview.html", nil)
 		})
 		root.Post("/{password_key}", func(w http.ResponseWriter, r *http.Request) {
 			passwordKey, _ := url.QueryUnescape(chi.URLParam(r, "password_key"))
@@ -200,14 +156,11 @@ Disallow: /
 				http.NotFound(w, r)
 				return
 			}
-			tpl, _ := parseTemplates(nil,
-				"/templates/password.html",
-				"/templates/base.html")
-			_ = tpl.ExecuteTemplate(w, "password.html", password)
+			_ = Temps.ExecuteTemplate(w, "password.html", password)
 		})
 
-		fs := http.FileServer(pkger.Dir("/static/"))
-		root.Handle("/static/*", http.StripPrefix("/static/", fs))
+		fs := http.FileServer(http.FS(StaticFS))
+		root.Handle("/static/*", fs)
 	})
 	return r
 }
