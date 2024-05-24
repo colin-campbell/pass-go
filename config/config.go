@@ -31,5 +31,6 @@ type (
 			DataDir string `envconfig:"PASSGO_DB_DATADIR" default:"/var/lib/ledis"`
 		}
 		CacheDir string `default:"/var/lib/acme"`
+		Captcha  bool   `envconfig:"PASSGO_CAPTCHA" default:"false"`
 	}
 )
