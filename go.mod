@@ -1,6 +1,6 @@
 module pass-go
 
-go 1.21
+go 1.21.0
 
 require (
 	github.com/fernet/fernet-go v0.0.0-20240119011108-303da6aec611
