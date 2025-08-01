@@ -1,4 +1,4 @@
-FROM alpine:latest as builder
+FROM alpine:latest AS builder
 
 RUN apk update && apk add --no-cache libcap ca-certificates  && update-ca-certificates
 
@@ -27,6 +27,7 @@ RUN setcap 'cap_net_bind_service=+ep' /pass-go
 ############################
 
 FROM scratch
+ENV USER=scratchuser
 # Import from builder.
 # We have to import everything, because scratch image is basically empty.
 
